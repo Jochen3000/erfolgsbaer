@@ -1,22 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  View,
-  Button,
-  Platform,
-  Dimensions
-} from 'react-native';
-import ViewImageScreen from './screens/ViewImageScreen';
-import WelcomeScreen from './screens/WelcomeScreen';
+import { StyleSheet, View } from 'react-native';
 
-export default function App() {
+import MyAccount from './screens/MyAccount';
+import colors from './config/colors';
+import Listings from './screens/Listings';
+
+
+function App() {
   return (
-    <ViewImageScreen />
+    <View style={styles.container}>
+      <Listings />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.lightbg,
+    padding: 20,
+    paddingTop: 60,
+  }
+})
+
+export default App;
+
+
 
 

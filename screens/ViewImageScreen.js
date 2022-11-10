@@ -1,9 +1,14 @@
 import { View, Text, StyleSheet, Image, SafeAreaView } from "react-native";
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function WelcomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.top}>
+                <MaterialCommunityIcons name="close" size={32} color="white" />
+                <MaterialCommunityIcons name="trash-can" size={32} color="white" />
+            </View>
             <Text style={styles.text}>Sell what you don't need</Text>
             <View style={styles.header}>
                 <View style={styles.box} />
@@ -19,6 +24,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "black",
     },
+    top: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
     image: {
         flex: 1,
         width: "100%",
@@ -27,15 +36,6 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         justifyContent: "space-between"
-    },
-    box: {
-        width: 50,
-        height: 50,
-        backgroundColor: "blue",
-        margin: 16
-    },
-    box2: {
-        backgroundColor: "red",
     },
 });
 

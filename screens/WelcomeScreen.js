@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
+import CustomButton from "../components/CustomButton";
+import colors from "../config/colors";
 
 export default function WelcomeScreen() {
 
@@ -10,11 +12,10 @@ export default function WelcomeScreen() {
                     <Text style={styles.text}>Sell what you don't need</Text>
                 </View>
                 <View style={styles.footercontainer}>
-                    <View style={styles.footerbox} />
-                    <View style={[styles.footerbox, styles.box2]} />
+                    <CustomButton text='Login' color='primary' />
+                    <CustomButton text='Register' color='secondary' />
                 </View>
             </ImageBackground>
-
         </View>
     );
 }
@@ -35,21 +36,12 @@ const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
-
     },
     text: {
         fontWeight: "bold",
     },
     footercontainer: {
-
-    },
-    footerbox: {
-        backgroundColor: "#fc5c65",
-        height: 60,
-        width: '100%',
-    },
-    box2: {
-        backgroundColor: "#4ECDC4",
+        padding: 16
     }
 });
 
