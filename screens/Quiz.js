@@ -8,12 +8,10 @@ function Quiz() {
     const [questionID, setQuestionID] = useState(0);
     const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
     const [resultScreen, setResultScreen] = useState(false);
-    console.log("der resultscreen ist", resultScreen);
 
     // update the count of correct answers
     useEffect(() => {
         // action on update of movies
-        console.log("correct", correctAnswerCount)
     }, [correctAnswerCount]);
 
     if (!resultScreen) {
@@ -37,7 +35,6 @@ function Quiz() {
                                 if (questionID < quiz.length - 1) {
                                     setQuestionID(nextQuestion);
                                 } else {
-                                    console.log('ende der liste');
                                     setResultScreen(true);
 
                                 };
