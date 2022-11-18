@@ -1,14 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 
-import MyAccount from './screens/MyAccount';
 import colors from './config/colors';
-import Listings from './screens/Listings';
+import Quiz from './screens/Quiz';
 
 
 function App() {
   return (
     <View style={styles.container}>
-      <Listings />
+      <Quiz />
     </View>
   );
 }
