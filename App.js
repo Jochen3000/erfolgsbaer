@@ -1,13 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 
 import colors from './config/colors';
-import Quiz from './screens/Quiz';
+import QuizRemote from './screens/QuizRemote';
 
 
 function App() {
   return (
     <View style={styles.container}>
-      <Quiz />
+      <QuizRemote />
     </View>
   );
 }
