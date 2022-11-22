@@ -1,14 +1,23 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import colors from './config/colors';
-import QuizNew from './screens/QuizNew';
-
+import AirtableDetails from './screens/AirtableDetails';
+import AirtableList from './screens/AirtableList';
 
 
 function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
     <View style={styles.container}>
-      <QuizNew />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="AirtableList" component={AirtableList} />
+          <Stack.Screen name="AirtableDetails" component={AirtableDetails} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }

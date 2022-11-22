@@ -4,7 +4,6 @@ import { FlatList, Text, View, StyleSheet } from 'react-native';
 function QuizNew() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    console.log(data);
 
     useEffect(() => {
         fetch('https://opentdb.com/api.php?amount=10&type=multiple')
@@ -19,13 +18,15 @@ function QuizNew() {
         <View>
             {isLoading ? <Text>Loading...</Text> :
                 (<View>
-                    <Text style={styles.headline}>Questions:</Text>
-                    <FlatList
-                        data={data.results}
-                        renderItem={({ item }) => (
-                            <Text style={styles.question}>{item.question}</Text>
-                        )}
-                    />
+                    <Text style={styles.headline}>Question:</Text>
+                    <Text style={styles.headline}>{data.results[0].question}</Text>
+
+                    {
+                        data.results[0].incorrect_answers.map((item) => (
+                            <Text>{item}</Text>
+                        ))
+                    }
+
                 </View>
                 )}
         </View>
