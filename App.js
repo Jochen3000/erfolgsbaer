@@ -1,24 +1,47 @@
-import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from './config/colors';
-import ExerciseDetails from './screens/ExerciseDetails';
-import ExerciseList from './screens/ExerciseList';
+import Exercises from './screens/Exercises';
+import Journal from './screens/Journal';
 
 
 function App() {
-  const Stack = createNativeStackNavigator();
+
+  const Tab = createBottomTabNavigator();
 
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="ExerciseList" component={ExerciseList} />
-          <Stack.Screen name="ExerciseDetails" component={ExerciseDetails} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveBackgroundColor: 'tomato',
+          tabBarActiveTintColor: 'white',
+        }}
+      >
+        <Tab.Screen
+          name="Exercises"
+          component={Exercises}
+          options={{
+            tabBarLabel: 'Exercises',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Journal"
+          component={Journal}
+          options={{
+            tabBarLabel: 'Journal',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="pencil" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 

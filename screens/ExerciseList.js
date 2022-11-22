@@ -27,7 +27,7 @@ function ExerciseList({ navigation }) {
                         data.records.map((item) => (
                             <View key={item.fields.id}>
                                 <TouchableOpacity
-                                    onPress={() => navigation.navigate('AirtableDetails', {
+                                    onPress={() => navigation.navigate('ExerciseDetails', {
                                         itemObj: item.fields
                                     }
                                     )}>
