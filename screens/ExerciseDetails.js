@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import colors from '../config/colors';
 
-function AirtableDetails({ route }) {
+function ExerciseDetails({ route }) {
     return (
         <View style={styles.card}>
             <Text style={styles.subtitle}>{route.params.itemObj.id}</Text>
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AirtableDetails;
+export default ExerciseDetails;

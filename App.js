@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import colors from './config/colors';
-import AirtableDetails from './screens/AirtableDetails';
-import AirtableList from './screens/AirtableList';
+import ExerciseDetails from './screens/ExerciseDetails';
+import ExerciseList from './screens/ExerciseList';
 
 
 function App() {
@@ -14,8 +14,8 @@ function App() {
     <View style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="AirtableList" component={AirtableList} />
-          <Stack.Screen name="AirtableDetails" component={AirtableDetails} />
+          <Stack.Screen name="ExerciseList" component={ExerciseList} />
+          <Stack.Screen name="ExerciseDetails" component={ExerciseDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
