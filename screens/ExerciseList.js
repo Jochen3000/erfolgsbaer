@@ -46,10 +46,10 @@ function ExerciseList({ navigation }) {
 const styles = StyleSheet.create({
     headline: {
         fontSize: 24,
-        paddingVertical: 16,
+        paddingVertical: 8,
     },
     exercise: {
-        paddingTop: 32,
+        paddingTop: 20,
         paddingBottom: 4,
     },
 })

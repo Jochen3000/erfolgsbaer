@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from './config/colors';
 import Exercises from './screens/Exercises';
 import Journal from './screens/Journal';
+import JournalList from './screens/JournalList';
 
 
 function App() {
@@ -27,6 +28,16 @@ function App() {
             tabBarLabel: 'Exercises',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Journallist"
+          component={JournalList}
+          options={{
+            tabBarLabel: 'List',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="book" color={color} size={size} />
             ),
           }}
         />
