@@ -6,52 +6,67 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Journal() {
 
-    const addReview = (review) => {
-        review.key = Math.random().toString();
-        setReviews((currentReviews) => {
-            return [review, ...currentReviews];
-        });
-    };
+    // const storeData = async (reviews) => {
+    //     try {
+    //         const jsonValue = JSON.stringify(reviews)
+    //         await AsyncStorage.setItem('journalStored', jsonValue)
+    //     } catch (e) {
+    //         // saving error
+    //     }
+    // }
 
-    const storeData = async (reviews) => {
-        try {
-            const jsonValue = JSON.stringify(reviews)
-            await AsyncStorage.setItem('journalStored', jsonValue)
-        } catch (e) {
-            // saving error
-        }
+    const [myArray, setArray] = useState([
+        { title: 'jo is here', id: '1' },
+        { title: 'biff is here', id: '2' }
+    ]);
+
+    // const [newItem, setNewItem] = useState({ title: 'micky is here', id: '3' })
+
+    const updateVals = (vals) => {
+        setArray((oldarray) => [...oldarray, {
+            title: vals.title,
+            id: Math.random().toString()
+        }])
     }
 
     return (
-        <Formik
-            initialValues={{ title: '', description: '' }}
-            onSubmit={storeData}
-        >
-            {({ handleChange, handleSubmit, handleBlur, setFieldTouched, errors, values }) => (
-                <View style={styles.container}>
-                    <TextInput
-                        onChangeText={handleChange('title')}
-                        onBlur={handleBlur('title')}
-                        placeholder='title'
-                        style={styles.input}
-                        value={values.title}
-                    />
-                    <Text style={{ color: 'red' }}>{errors.price}</Text>
-                    <TextInput
-                        onChangeText={handleChange('description')}
-                        onBlur={handleBlur('description')}
-                        placeholder='description'
-                        style={styles.inputarea}
-                        value={values.description}
-                        multiline={true}
-                        numberOfLines={4}
-                    />
-                    <Text style={{ color: 'red' }}>{errors.description}</Text>
-                    <Button onPress={handleSubmit} title="Post" />
-                </View>
-            )}
-        </Formik>
-
+        <View style={styles.container}>
+            <Formik
+                initialValues={{ title: '', description: '' }}
+                onSubmit={updateVals}
+            >
+                {({ handleChange, handleSubmit, handleBlur, setFieldTouched, errors, values }) => (
+                    <View style={styles.container}>
+                        <TextInput
+                            onChangeText={handleChange('title')}
+                            onBlur={handleBlur('title')}
+                            placeholder='title'
+                            style={styles.input}
+                            value={values.title}
+                        />
+                        <Text style={{ color: 'red' }}>{errors.price}</Text>
+                        <TextInput
+                            onChangeText={handleChange('description')}
+                            onBlur={handleBlur('description')}
+                            placeholder='description'
+                            style={styles.inputarea}
+                            value={values.description}
+                            multiline={true}
+                            numberOfLines={4}
+                        />
+                        <Text style={{ color: 'red' }}>{errors.description}</Text>
+                        <Button onPress={handleSubmit} title="Post" />
+                    </View>
+                )}
+            </Formik>
+            <View>
+                {myArray.map((item) => (
+                    <View key={item.id}>
+                        <Text>{item.title}</Text>
+                    </View>
+                ))}
+            </View>
+        </View>
     );
 }
 
@@ -60,6 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
         paddingTop: 30,
+        paddingLeft: 12,
     },
     input: {
         borderBottomColor: '#ccc',
