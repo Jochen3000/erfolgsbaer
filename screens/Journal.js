@@ -1,34 +1,54 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Journal() {
 
-    // const storeData = async (reviews) => {
-    //     try {
-    //         const jsonValue = JSON.stringify(reviews)
-    //         await AsyncStorage.setItem('journalStored', jsonValue)
-    //     } catch (e) {
-    //         // saving error
-    //     }
-    // }
+    const [storageItems, setStorageItems] = useState([])
 
-    const [myArray, setArray] = useState([
-        { title: 'jo is here', id: '1' },
-        { title: 'biff is here', id: '2' }
-    ]);
+    // read storage and put in array
+    const getStoredData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('entryStored2')
+            if (value !== null) {
+                const data = JSON.parse(value);
+                // put data in array
+                setStorageItems(data);
+            }
+        } catch (e) {
+            // error reading value
+            console.log('da sind keine daten')
+        }
+    }
+    useEffect(() => {
+        getStoredData();
+    }, []);
 
-    // const [newItem, setNewItem] = useState({ title: 'micky is here', id: '3' })
-
+    // Append new entry to array
     const updateVals = (vals) => {
-        setArray((oldarray) => [...oldarray, {
+        setStorageItems((oldarray) => [...oldarray, {
             title: vals.title,
             id: Math.random().toString()
         }])
     }
 
+    // write array to asynch storage
+    const storeData = async () => {
+        try {
+            await AsyncStorage.setItem('entryStored2', JSON.stringify(storageItems))
+        } catch (e) {
+            // saving error
+            console.log('cant save');
+        }
+    }
+
+    useEffect(() => {
+        storeData();
+    }, [storageItems]);
+
+    console.log('meine daten', storageItems);
     return (
         <View style={styles.container}>
             <Formik
@@ -60,7 +80,7 @@ function Journal() {
                 )}
             </Formik>
             <View>
-                {myArray.map((item) => (
+                {storageItems.map((item) => (
                     <View key={item.id}>
                         <Text>{item.title}</Text>
                     </View>
