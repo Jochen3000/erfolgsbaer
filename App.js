@@ -6,8 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from './config/colors';
 import Exercises from './screens/Exercises';
 import Journal from './screens/Journal';
-import JournalList from './screens/JournalList';
 import LearnUse from './screens/LearnUse';
+import AudioPlayer from './screens/AudioPlayer';
 
 
 function App() {
@@ -33,12 +33,12 @@ function App() {
           }}
         />
         <Tab.Screen
-          name="Journallist"
-          component={JournalList}
+          name="AudioPlayer"
+          component={AudioPlayer}
           options={{
-            tabBarLabel: 'List',
+            tabBarLabel: 'Audio Player',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="book" color={color} size={size} />
+              <MaterialCommunityIcons name="speaker" color={color} size={size} />
             ),
           }}
         />
