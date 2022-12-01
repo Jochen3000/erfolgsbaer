@@ -4,48 +4,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LearnUse() {
 
-    // declare arrays
-    const [myStorageVals, setMyStorageVals] = useState('init');
-    const [myArray, setArray] = useState([
-        { title: 'yesterday all my trouble', id: '1' },
-        { title: '99 red balloons', id: '2' }
-    ]);
-
-    // write data
-    const storeData = async () => {
-        try {
-            const jsonValue = JSON.stringify(myArray)
-            await AsyncStorage.setItem('storageJournalEntry', jsonValue)
-        } catch (e) {
-            // saving error
-            console.log('saving problem')
-        }
-    }
-    useEffect(() => {
-        storeData();
-    }, []);
-
-    // read storage and put in variable
-    const getStoredData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('storageJournalEntry')
-            if (value !== null) {
-                const data = JSON.parse(value);
-                // put data in array
-                setMyStorageVals(value);
+    myArray = [
+        {
+            fields: {
+                audiourl: "https://adagiafiles.s3.eu-west-1.amazonaws.com/audio/01.03d005cd-2021-4847-ad0e-db9b3fdb1ab9.mp3",
+                id: 1,
+                exercise: "die erste stufe. between friends"
             }
-        } catch (e) {
-            // error reading value
-            console.log('da sind keine daten')
+        }
+    ]
+
+    const store = async (key, value) => {
+        try {
+            const item = {
+                value,
+                timestamp: Date.now()
+            }
+            const stringItem = JSON.stringify(item)
+
+            await AsyncStorage.setItem(key, JSON.stringify(item));
+            console.log('learray', item)
+
+        } catch (error) {
+            console.log(error);
         }
     }
+
     useEffect(() => {
-        getStoredData();
-    }, []);
-    console.log('meine Werte', myStorageVals)
+        store('meinkey', myArray)
+    }, []
+    )
+
+
     return (
         <View style={styles.container}>
-            <Text>Hallo</Text>
+            <Text>Hallo Leute</Text>
         </View>
     );
 }

@@ -24,7 +24,7 @@ const AudioPlayer = () => {
         setDuration(Status.durationMillis);
         setPosition(Status.positionMillis);
 
-        //play in bg - to be tested
+        //play in bg
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
             staysActiveInBackground: true,
