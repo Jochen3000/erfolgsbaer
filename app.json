@@ -17,10 +17,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jochenade.expocustom",
       "infoPlist": {
         "UIBackgroundModes": ["audio"]
-      }
+      },
+      "bundleIdentifier": "com.jochenade.myfirstapp",
+      "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b6af1552-c1bc-442f-8069-9e267e36874e"
+      }
     }
   }
 }

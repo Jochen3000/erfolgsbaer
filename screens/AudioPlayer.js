@@ -10,31 +10,46 @@ const AudioPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(null);
     const [position, setPosition] = useState(null);
+    const [pausePosition, setPausePosition] = useState(0);
 
     async function playSound() {
-        console.log('Loading Sound');
+        // load
         const { sound } = await Audio.Sound.createAsync(require('../assets/let-not.mp3'));
         setSound(sound);
 
-        // track progress
-        sound.setOnPlaybackStatusUpdate((status) => {
-            setPosition(status.positionMillis);
-        });
-
-        console.log('Playing Sound');
-        await sound.playAsync();
+        // play
+        await sound.playFromPositionAsync(pausePosition);
         setIsPlaying(true);
         const Status = await sound.getStatusAsync();
         setDuration(Status.durationMillis);
         setPosition(Status.positionMillis);
+
+        //play in bg - to be tested
+        await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            staysActiveInBackground: true,
+            playsInSilentModeIOS: true,
+        })
+
+        // track status and check end of track
+        sound.setOnPlaybackStatusUpdate((status) => {
+            setPosition(status.positionMillis);
+            if (status.didJustFinish) {
+                console.log('ende gelände')
+                setIsPlaying(false);
+                setPausePosition(0);
+            }
+        });
     }
 
     async function pauseSound() {
         console.log('pausing sound');
         await sound.pauseAsync();
         setIsPlaying(false);
+        setPausePosition(position);
     }
 
+    // Play-Pause switch
     const onPlayPausePress = () => {
         if (isPlaying) {
             pauseSound();
@@ -58,8 +73,6 @@ const AudioPlayer = () => {
         return (position / duration) * 100;
     }
 
-    const myProgress = getProgress();
-
     return (
         <View>
             <View style={styles.player}>
@@ -78,10 +91,18 @@ const AudioPlayer = () => {
                 <Slider
                     style={styles.slider}
                     minimumValue={0}
-                    maximumValue={100}
+                    maximumValue={duration != null && duration}
                     minimumTrackTintColor="tomato"
                     maximumTrackTintColor="lightgrey"
-                    value={myProgress}
+                    value={position != null && position}
+                    onSlidingStart={() => {
+                        if (isPlaying) {
+                            pauseSound();
+                        }
+                    }}
+                    onSlidingComplete={(dragpos) => {
+                        setPausePosition(dragpos);
+                    }}
                 />
             </View>
         </View>
