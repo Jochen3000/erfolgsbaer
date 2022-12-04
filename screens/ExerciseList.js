@@ -4,48 +4,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
 
 function ExerciseList({ navigation }) {
+
     const [isLoading, setLoading] = useState(true);
-    const [myData, setMyData] = useState([]);
     const [data, setData] = useState([]);
     const [storageItems, setStorageItems] = useState([]);
+
+    useEffect(() => {
+        getStoredData();
+    }, []);
 
     // get stored data
     const getStoredData = async () => {
         try {
             const value = await AsyncStorage.getItem('meinkey')
             if (value !== null) {
-                const data = JSON.parse(value);
-                // put data in array
-                setStorageItems(data.value);
+                const data = await JSON.parse(value);
+                // check valid
+                const now = dayjs();
+                const storedTime = dayjs(data.timestamp);
+                const isExpired = now.diff(storedTime, 'hour') > 24;
 
+                // put data in array or fetch new data
+                if (!isExpired) {
+                    setStorageItems(data.value);
+                    setLoading(false);
+                } else {
+                    console.log('EXPIRED? Need remote', isExpired)
+                    getRemoteData();
+                }
             }
         } catch (e) {
             // error reading value
             console.log('da sind keine daten')
         }
     }
-    useEffect(() => {
-        getStoredData();
-    }, []);
 
-    useEffect(() => {
-        // console.log('DATEN', storageItems);
-    }, [storageItems]);
-
-    // load data
-
-    useEffect(() => {
+    // get remote data
+    const getRemoteData = () => {
         fetch('https://api.airtable.com/v0/appmkw9T6kKIvJvbq/exercises?maxRecords=3&view=Grid%20view', {
             method: "GET",
             headers: { "Authorization": "Bearer keyHNf6pSow89oumN" }
         })
             .then((response) => response.json())
-            .then((json) => setData(json))
+            .then((json) => setStorageItems(json))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
-    }, []);
+    }
 
-    // save data to cache
+    // save latest data to cache
     // useEffect(() => {
     //     const store = async (key, value) => {
     //         try {
@@ -62,8 +68,6 @@ function ExerciseList({ navigation }) {
     //     store('meinkey', data)
     // }, [data]
     // )
-
-    console.log('DATEN BE', data)
 
     return (
 
