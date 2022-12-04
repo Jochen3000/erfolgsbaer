@@ -4,43 +4,49 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LearnUse() {
 
-    myArray = [
-        {
-            fields: {
-                audiourl: "https://adagiafiles.s3.eu-west-1.amazonaws.com/audio/01.03d005cd-2021-4847-ad0e-db9b3fdb1ab9.mp3",
-                id: 1,
-                exercise: "die erste stufe. between friends"
-            }
-        }
-    ]
+    const [storageItems, setStorageItems] = useState([])
+    const [checker, setChecker] = useState(false)
 
-    const store = async (key, value) => {
+    // read storage and put in array
+    const getStoredData = async () => {
         try {
-            const item = {
-                value,
-                timestamp: Date.now()
+            const value = await AsyncStorage.getItem('meinkey')
+            if (value !== null) {
+                const data = JSON.parse(value);
+                // put data in array
+                setStorageItems(data);
+
             }
-            const stringItem = JSON.stringify(item)
-
-            await AsyncStorage.setItem(key, JSON.stringify(item));
-            console.log('learray', item)
-
-        } catch (error) {
-            console.log(error);
+        } catch (e) {
+            // error reading value
+            console.log('da sind keine daten')
         }
     }
+    useEffect(() => {
+        getStoredData();
+    }, []);
 
     useEffect(() => {
-        store('meinkey', myArray)
-    }, []
-    )
+        setChecker(true);
+    }, [storageItems]);
 
+
+    console.log('STORAGE', checker && storageItems.value.records[0].fields.exercise);
 
     return (
         <View style={styles.container}>
             <Text>Hallo Leute</Text>
+            <Text>{checker && storageItems.value.records[0].fields.exercise}</Text>
+            <View>
+                {checker && storageItems.records.map((item) => (
+                    <View key={item.fields.id}>
+                        <Text>{item.fields.exercise}</Text>
+                    </View>
+                ))}
+            </View>
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({

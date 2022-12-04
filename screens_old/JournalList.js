@@ -6,18 +6,13 @@ function JournalList() {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    const [journalEntries, setJournalEntries] = useState([
-        { title: 'Zelda, Breath of Fresh Air', description: 'lorem ipsum', id: '1' },
-        { title: 'Gotta Catch Them All (again)', description: 'lorem ipsum', id: '2' },
-        { title: 'Not So "Final" Fantasy', description: 'lorem ipsum', id: '3' },
-    ]);
+    const [journalEntries, setJournalEntries] = useState([]);
 
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem('journalStored')
             if (value !== null) {
                 // value previously stored
-                setJournalEntries
                 console.log('hey daten', value)
             }
         } catch (e) {
