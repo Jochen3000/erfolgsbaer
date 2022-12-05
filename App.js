@@ -8,6 +8,7 @@ import Exercises from './screens/Exercises';
 import Journal from './screens/Journal';
 import LearnUse from './screens/LearnUse';
 import AudioPlayer from './screens/AudioPlayer';
+import LearnUse2 from './screens/LearnUse2';
 
 
 function App() {

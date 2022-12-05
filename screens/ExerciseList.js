@@ -8,6 +8,7 @@ function ExerciseList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [storageItems, setStorageItems] = useState([]);
+    const [updateCache, setUpdateCache] = useState(false);
 
     useEffect(() => {
         getStoredData();
@@ -22,14 +23,15 @@ function ExerciseList({ navigation }) {
                 // check valid
                 const now = dayjs();
                 const storedTime = dayjs(data.timestamp);
-                const isExpired = now.diff(storedTime, 'hour') > 24;
+                const isExpired = now.diff(storedTime, 'minute') > 1;
 
                 // put data in array or fetch new data
                 if (!isExpired) {
                     setStorageItems(data.value);
                     setLoading(false);
+                    console.log('reading data from cache');
                 } else {
-                    console.log('EXPIRED? Need remote', isExpired)
+                    console.log('cache expired ', isExpired)
                     getRemoteData();
                 }
             }
@@ -47,30 +49,33 @@ function ExerciseList({ navigation }) {
         })
             .then((response) => response.json())
             .then((json) => setStorageItems(json))
+            .then(() => setUpdateCache(true))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
     }
 
     // save latest data to cache
-    // useEffect(() => {
-    //     const store = async (key, value) => {
-    //         try {
-    //             const item = {
-    //                 value,
-    //                 timestamp: Date.now()
-    //             }
-    //             const stringItem = JSON.stringify(item)
-    //             await AsyncStorage.setItem(key, JSON.stringify(item));
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     store('meinkey', data)
-    // }, [data]
-    // )
+    useEffect(() => {
+        const storeCache = async (value) => {
+            try {
+                const item = {
+                    value,
+                    timestamp: Date.now()
+                }
+                await AsyncStorage.setItem('meinkey', JSON.stringify(item));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if (updateCache == true) {
+            console.log('writing to cache ', updateCache);
+            storeCache(storageItems)
+        }
+    }, [updateCache])
+
 
     return (
-
         <View>
             {isLoading ?
                 <View>
@@ -81,7 +86,7 @@ function ExerciseList({ navigation }) {
                     <Text style={styles.headline}>Exercises:</Text>
 
                     {
-                        storageItems.records && storageItems.records.map((item) => (
+                        storageItems.records.length > 0 && storageItems.records.map((item) => (
                             <View key={item.fields.id}>
                                 <TouchableOpacity
                                     onPress={() => navigation.navigate('ExerciseDetails', {
