@@ -7,9 +7,6 @@ import colors from './config/colors';
 import Exercises from './screens/Exercises';
 import Journal from './screens/Journal';
 import AudioPlayer from './screens/AudioPlayer';
-import LearnUse2 from './screens/LearnUse2';
-import LearnUse from './screens/LearnUse';
-
 
 function App() {
 

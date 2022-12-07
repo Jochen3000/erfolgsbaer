@@ -1,54 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useGetJournal from '../hooks/useGetJournal';
 
 function Journal() {
+    const { storageItems, updateVals } = useGetJournal();
 
-    const [storageItems, setStorageItems] = useState([])
-
-    // read storage and put in array
-    const getStoredData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('entryStored2')
-            if (value !== null) {
-                const data = JSON.parse(value);
-                // put data in array
-                setStorageItems(data);
-            }
-        } catch (e) {
-            // error reading value
-            console.log('da sind keine daten')
-        }
-    }
-    useEffect(() => {
-        getStoredData();
-    }, []);
-
-    // Append new entry to array
-    const updateVals = (vals) => {
-        setStorageItems((oldarray) => [...oldarray, {
-            title: vals.title,
-            id: Math.random().toString()
-        }])
-    }
-
-    // write array to asynch storage
-    const storeData = async () => {
-        try {
-            await AsyncStorage.setItem('entryStored2', JSON.stringify(storageItems))
-        } catch (e) {
-            // saving error
-            console.log('cant save');
-        }
-    }
-
-    useEffect(() => {
-        storeData();
-    }, [storageItems]);
-
-    console.log('meine daten', storageItems);
     return (
         <View style={styles.container}>
             <Formik

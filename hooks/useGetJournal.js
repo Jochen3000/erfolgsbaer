@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function useGetLocalJournal() {
+function useGetJournal() {
 
     const [storageItems, setStorageItems] = useState([])
 
@@ -22,10 +22,33 @@ function useGetLocalJournal() {
     useEffect(() => {
         getStoredData();
     }, []);
-    return storageItems
+
+    // Append new entry to array
+    const updateVals = (vals) => {
+        setStorageItems((oldarray) => [...oldarray, {
+            title: vals.title,
+            id: Math.random().toString()
+        }])
+    }
+
+    // write array to asynch storage
+    const storeData = async () => {
+        try {
+            await AsyncStorage.setItem('entryStored2', JSON.stringify(storageItems))
+        } catch (e) {
+            // saving error
+            console.log('cant save');
+        }
+    }
+
+    useEffect(() => {
+        storeData();
+    }, [storageItems]);
+
+    return { storageItems, updateVals }
 }
 
-export default useGetLocalJournal;
+export default useGetJournal;
 
 
 
