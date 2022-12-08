@@ -7,51 +7,53 @@ import colors from './config/colors';
 import Exercises from './screens/Exercises';
 import Journal from './screens/Journal';
 import AudioPlayer from './screens/AudioPlayer';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
 
   const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveBackgroundColor: 'tomato',
-          tabBarActiveTintColor: 'white',
-        }}
-      >
-        <Tab.Screen
-          name="Exercises"
-          component={Exercises}
-          options={{
-            tabBarLabel: 'Exercises',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="AudioPlayer"
-          component={AudioPlayer}
-          options={{
-            tabBarLabel: 'Audio Player',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="speaker" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Journal"
-          component={Journal}
-          options={{
-            tabBarLabel: 'Journal',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="pencil" color={color} size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <LoginScreen />
+    // <NavigationContainer>
+    //   <Tab.Navigator
+    //     screenOptions={{
+    //       tabBarActiveBackgroundColor: 'tomato',
+    //       tabBarActiveTintColor: 'white',
+    //     }}
+    //   >
+    //     <Tab.Screen
+    //       name="Exercises"
+    //       component={Exercises}
+    //       options={{
+    //         tabBarLabel: 'Exercises',
+    //         tabBarIcon: ({ color, size }) => (
+    //           <MaterialCommunityIcons name="home" color={color} size={size} />
+    //         ),
+    //       }}
+    //     />
+    //     <Tab.Screen
+    //       name="AudioPlayer"
+    //       component={AudioPlayer}
+    //       options={{
+    //         tabBarLabel: 'Audio Player',
+    //         tabBarIcon: ({ color, size }) => (
+    //           <MaterialCommunityIcons name="speaker" color={color} size={size} />
+    //         ),
+    //       }}
+    //     />
+    //     <Tab.Screen
+    //       name="Journal"
+    //       component={Journal}
+    //       options={{
+    //         tabBarLabel: 'Journal',
+    //         tabBarIcon: ({ color, size }) => (
+    //           <MaterialCommunityIcons name="pencil" color={color} size={size} />
+    //         ),
+    //       }}
+    //     />
+    //   </Tab.Navigator>
+    // </NavigationContainer>
   );
 }
 
