@@ -67,11 +67,6 @@ function Notification() {
         data: { data: 'goes here' },
       },
 
-      // trigger: {
-      //     hour: hours,
-      //     minute: minutes,
-      //     repeats: true,
-      //   }
       trigger: {
         minute: myMinutes,
         hour: myHours,
