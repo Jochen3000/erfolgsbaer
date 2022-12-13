@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const TimePicker = () => {
+const TimePicker = ({ notifyHourMinute }) => {
+
     const [selectedTime, setSelectedTime] = useState([]);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -15,14 +16,15 @@ const TimePicker = () => {
     };
 
     const handleConfirm = (date) => {
-        setSelectedDate(date);
         setSelectedTime([date.getHours(), date.getMinutes()])
+        notifyHourMinute([date.getHours(), date.getMinutes()]);
         hideTimePicker();
     };
 
     return (
         <View style={styles.container}>
-            <Button title="Show Time Picker" onPress={showTimePicker} />
+            <Button title="Select notification time" onPress={showTimePicker} />
+
             <Text style={styles.text}>
                 {selectedTime[0] ? `${selectedTime[0]}:${selectedTime[1]}` : 'No time selected'}
             </Text>

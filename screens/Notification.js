@@ -6,14 +6,20 @@ import TimePicker from '../components/TimePicker';
 
 function Notification() {
 
+  const [notificationTime, setNotificationTime] = useState([]);
   const [permissionGranted, setPermissionGranted] = useState(false);
+
+  // set a value from child
+  const notifyHourMinute = (time) => {
+    console.log('parent received', time[0]);
+    setNotificationTime(time);
+  }
 
   // check if user has given permissions
   useEffect(() => {
     async function checkPermission() {
       const { status } = await Notifications.getPermissionsAsync();
       if (status === 'granted') {
-        console.log('User has granted notification permission');
         setPermissionGranted(true)
       } else {
         console.log('User has not granted notification permission');
@@ -42,8 +48,6 @@ function Notification() {
     Notifications.cancelAllScheduledNotificationsAsync()
   }
 
-
-
   // initialise notification handler
   Notifications.setNotificationHandler({
     handleNotification: async () => {
@@ -57,30 +61,26 @@ function Notification() {
 
   // allow user to set notifications
   const setNotification = () => {
-    const myMinutes = 51;
-    const myHours = 15;
 
     Notifications.scheduleNotificationAsync({
       content: {
         title: "You've got mail! 📬",
         body: 'take it easy',
-        data: { data: 'goes here' },
       },
 
       trigger: {
-        minute: myMinutes,
-        hour: myHours,
-        repeats: false,
+        minute: notificationTime[1],
+        hour: notificationTime[0],
+        repeats: true,
       },
     });
   }
 
   return (
     <View style={styles.container}>
-      <Text>Hallo Leute</Text>
-      <TimePicker />
+      <TimePicker notifyHourMinute={notifyHourMinute} />
+      <Button title="Aktivate notifications" onPress={setNotification} />
       <View style={styles.statusbox}>
-        <Button title="Set notification" onPress={setNotification} />
         <Button title="Cancel notification" onPress={cancelNotification} />
       </View>
       <View style={styles.statusbox}>
