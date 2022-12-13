@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Notifications from 'expo-notifications';
-import TimePicker from './TimePicker';
+import TimePicker from '../components/TimePicker';
 
 function Notification() {
 
