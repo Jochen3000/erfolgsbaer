@@ -10,7 +10,6 @@ import AudioPlayer from './screens/AudioPlayer';
 import LoginScreen from './screens/LoginScreen';
 import LearnUse from './screens/LearnUse';
 import Notification from './screens/Notification';
-import TimePicker from './screens/TimePicker';
 
 function App() {
 
