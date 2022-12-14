@@ -16,7 +16,9 @@ const TimePicker = ({ notifyHourMinute }) => {
     };
 
     const handleConfirm = (date) => {
-        setSelectedTime([date.getHours(), date.getMinutes()])
+        let minutes = date.getMinutes()
+        let displayMinutes = minutes <= 9 ? (`0${minutes}`) : (`${minutes}`);
+        setSelectedTime([date.getHours(), displayMinutes])
         notifyHourMinute([date.getHours(), date.getMinutes()]);
         hideTimePicker();
     };

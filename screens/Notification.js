@@ -11,7 +11,6 @@ function Notification() {
 
   // set a value from child
   const notifyHourMinute = (time) => {
-    console.log('parent received', time[0]);
     setNotificationTime(time);
   }
 
