@@ -1,14 +1,18 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import colors from '../config/colors';
+import AudioPlayer from './AudioPlayer';
 
 function ExerciseDetails({ route }) {
+
+    const audioUri = route.params.itemObj.audiourl;
+
     return (
         <View style={styles.card}>
             <Text style={styles.subtitle}>{route.params.itemObj.id}</Text>
             <Text style={styles.subtitle}>{route.params.itemObj.exercise}</Text>
             <Text style={styles.subtitle}>{route.params.itemObj.audiourl}</Text>
-
+            <AudioPlayer audioUri={audioUri} />
         </View >
     );
 }

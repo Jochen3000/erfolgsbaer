@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Audio } from 'expo-av';
 
-export default function useAudio() {
+export default function useAudio({ audioUri }) {
     const [sound, setSound] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(null);
@@ -11,7 +11,7 @@ export default function useAudio() {
     async function playSound() {
         // load
         const { sound } = await Audio.Sound.createAsync({
-            uri: 'https://adagiafiles.s3.eu-west-1.amazonaws.com/audio/01.03d005cd-2021-4847-ad0e-db9b3fdb1ab9.mp3'
+            uri: audioUri
         });
         setSound(sound);
 
@@ -41,7 +41,6 @@ export default function useAudio() {
     }
 
     async function pauseSound() {
-        console.log('pausing sound');
         await sound.pauseAsync();
         setIsPlaying(false);
         setPausePosition(position);

@@ -34,16 +34,6 @@ function App() {
           }}
         />
         <Tab.Screen
-          name="AudioPlayer"
-          component={AudioPlayer}
-          options={{
-            tabBarLabel: 'Audio Player',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="speaker" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
           name="Journal"
           component={Journal}
           options={{

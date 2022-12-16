@@ -5,8 +5,7 @@ import Slider from '@react-native-community/slider';
 
 import useAudio from '../hooks/useAudio';
 
-
-const AudioPlayer = () => {
+const AudioPlayer = (audioUri) => {
 
     const {
         getProgress,
@@ -16,12 +15,11 @@ const AudioPlayer = () => {
         pauseSound,
         setPausePosition,
         position
-    } = useAudio();
+    } = useAudio(audioUri);
 
     return (
         <View>
             <View style={styles.player}>
-
                 <View style={[styles.progress, { width: `${getProgress()}%` }]} />
                 <View style={styles.row}>
                     <View style={styles.iconsContainer}>
