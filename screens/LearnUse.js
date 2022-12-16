@@ -1,106 +1,37 @@
 import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { useEffect, useState } from 'react';
-import * as Notifications from 'expo-notifications';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import * as FileSystem from 'expo-file-system';
 
 
 function LearnUse() {
 
-    // Lots of stuff for date time picker
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
-    };
+    // URL of the file you want to download
+    const url = 'https://adagiafiles.s3.eu-west-1.amazonaws.com/audio/01.03d005cd-2021-4847-ad0e-db9b3fdb1ab9.mp3';
 
-    const showMode = (currentMode) => {
-        if (Platform.OS === 'android') {
-            setShow(false);
-            // for iOS, add a button that closes the picker
-        }
-        setMode(currentMode);
-    };
+    // Location on the device where the file should be saved
+    const downloadDirectory = FileSystem.documentDirectory + 'my-downloads' + 'file1.mp3';
 
-    const showDatepicker = () => {
-        showMode('date');
-    };
+    // Download the file
+    const downloadFile = () => {
+        FileSystem.downloadAsync(url, downloadDirectory)
+            .then(({ uri }) => {
+                // The file has been downloaded and saved to the downloadDirectory
+                // You can now use the file from the uri variable
+                console.log(uri);
+            })
+            .catch(error => {
+                // Something went wrong!
+                console.error(error);
+            });
+    }
 
-    const showTimepicker = () => {
-        showMode('time');
-    };
-
-    // Notifications.cancelAllScheduledNotificationsAsync()
-
-    // async function requestPermissionsAsync() {
-    //     return await Notifications.requestPermissionsAsync({
-    //         ios: {
-    //             allowAlert: true,
-    //             allowBadge: true,
-    //             allowSound: true,
-    //             allowAnnouncements: true,
-    //         },
-    //     });
-    // }
-    // requestPermissionsAsync();
-
-
-
-    const mySeconds = 300;
-
-
-    Notifications.setNotificationHandler({
-        handleNotification: async () => {
-            return {
-                shouldShowAlert: true,
-                shouldPlaySound: true,
-                shouldSetBadge: true,
-            };
-        },
-    });
-
-    const content = { title: 'I am a one, hasty notification.' };
-
-    Notifications.scheduleNotificationAsync({
-        content: {
-            title: "You've got mail! 📬",
-            body: 'Here is the notification body',
-            data: { data: 'goes here' },
-        },
-
-        // trigger: {
-        //     hour: hours,
-        //     minute: minutes,
-        //     repeats: true,
-        //   }
-        trigger: {
-            seconds: mySeconds,
-            repeats: false,
-        },
-    });
 
     return (
         <View style={styles.container}>
             <Text>Hallo Leute</Text>
-            <View>
-                <Button onPress={showDatepicker} title="Show date picker!" />
-                <Button onPress={showTimepicker} title="Show time picker!" />
-                <Text>selected: {date.toLocaleString()}</Text>
-                {show && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={date}
-                        mode={mode}
-                        is24Hour={true}
-                        onChange={onChange}
-                    />
-                )}
-            </View>
-
+            <Button title='download file' onPress={downloadFile} />
         </View>
     );
 }

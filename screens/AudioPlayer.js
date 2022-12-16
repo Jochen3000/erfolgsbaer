@@ -14,7 +14,9 @@ const AudioPlayer = () => {
 
     async function playSound() {
         // load
-        const { sound } = await Audio.Sound.createAsync(require('../assets/let-not.mp3'));
+        const { sound } = await Audio.Sound.createAsync({
+            uri: 'https://adagiafiles.s3.eu-west-1.amazonaws.com/audio/01.03d005cd-2021-4847-ad0e-db9b3fdb1ab9.mp3'
+        });
         setSound(sound);
 
         // play
