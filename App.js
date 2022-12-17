@@ -13,6 +13,7 @@ import Notification from './screens/Notification';
 
 function App() {
 
+  const loggedIn = true;
   const Tab = createBottomTabNavigator();
 
   return (
