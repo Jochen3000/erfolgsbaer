@@ -14,13 +14,6 @@ function useGetExercises() {
         getStoredData();
     }, []);
 
-    // useEffect(() => {
-    //     const clearAsyncStorage = async () => {
-    //         AsyncStorage.clear();
-    //     }
-    //     clearAsyncStorage();
-    // }, []);
-
     // get stored data
     const getStoredData = async () => {
         try {

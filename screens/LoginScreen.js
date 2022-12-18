@@ -9,10 +9,13 @@ import {
 } from "firebase/auth";
 import { auth } from '../config/firebase'
 
+import authContext from '../auth/authContext';
+
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loggedIn, setLoggedIn] = useState(false)
+    const { user, setUser } = useContext(authContext);
 
     // const navigation = useNavigation()
 
@@ -41,6 +44,7 @@ const LoginScreen = () => {
                 const user = userCredentials.user;
                 console.log('Logged in with:', user.email);
                 setLoggedIn(true);
+                setUser(user.email);
             })
             .catch(error => alert(error.message))
     }
@@ -51,6 +55,7 @@ const LoginScreen = () => {
                 // navigation.replace("Login")
                 console.log('logged out');
                 setLoggedIn(false)
+                setUser(null);
             })
             .catch(error => alert(error.message))
     }

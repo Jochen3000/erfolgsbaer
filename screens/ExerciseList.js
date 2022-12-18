@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import useGetExercises from '../hooks/useGetExercises';
+import authContext from '../auth/authContext';
 
 function ExerciseList({ navigation }) {
+
+    const { user, setUser } = useContext(authContext);
     const { storageItems = [], isLoading = true } = useGetExercises();
 
     return (
@@ -14,6 +17,7 @@ function ExerciseList({ navigation }) {
                 </View>
                 :
                 (<View>
+                    {user && <Text>Welcome {user}!</Text>}
                     <Text style={styles.headline}>Exercises:</Text>
 
                     {
