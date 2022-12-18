@@ -9,9 +9,17 @@ function useGetExercises() {
     const [storageItems, setStorageItems] = useState([]);
     const [updateCache, setUpdateCache] = useState(false);
 
+
     useEffect(() => {
         getStoredData();
     }, []);
+
+    // useEffect(() => {
+    //     const clearAsyncStorage = async () => {
+    //         AsyncStorage.clear();
+    //     }
+    //     clearAsyncStorage();
+    // }, []);
 
     // get stored data
     const getStoredData = async () => {
@@ -22,7 +30,7 @@ function useGetExercises() {
                 // check valid
                 const now = dayjs();
                 const storedTime = dayjs(data.timestamp);
-                const isExpired = now.diff(storedTime, 'minute') > 1;
+                const isExpired = now.diff(storedTime, 'minute') > 10;
 
                 // put data in array or fetch new data
                 if (!isExpired) {
@@ -33,10 +41,13 @@ function useGetExercises() {
                     console.log('cache expired ', isExpired)
                     getRemoteData();
                 }
+            } else {
+                console.log('no data in cache')
+                getRemoteData();
             }
         } catch (e) {
             // error reading value
-            console.log('da sind keine daten')
+            console.log('no data', e)
         }
     }
 
@@ -72,6 +83,7 @@ function useGetExercises() {
             storeCache(storageItems)
         }
     }, [updateCache])
+
 
     return { storageItems, isLoading }
 }
