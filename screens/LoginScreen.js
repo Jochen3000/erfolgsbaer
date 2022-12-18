@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState, useContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import {
     createUserWithEmailAndPassword,
@@ -28,6 +28,18 @@ const LoginScreen = () => {
 
     //     return unsubscribe
     //   }, [])
+
+    useEffect(() => {
+        const localStorage = auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in.
+                AsyncStorage.setItem('auth.currentUser', JSON.stringify(user));
+            } else {
+                // User is signed out.
+                AsyncStorage.removeItem('auth.currentUser');
+            }
+        });
+    }, [])
 
     const handleSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
@@ -59,6 +71,8 @@ const LoginScreen = () => {
             })
             .catch(error => alert(error.message))
     }
+
+
 
     return (
         <KeyboardAvoidingView
