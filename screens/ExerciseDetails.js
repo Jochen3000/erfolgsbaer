@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import colors from '../config/colors';
-import AudioPlayer from './AudioPlayer';
-
+import AudioPlayer from '../components/AudioPlayer';
 function ExerciseDetails({ route }) {
 
     const audioUri = route.params.itemObj.audiourl;

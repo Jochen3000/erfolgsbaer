@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import authContext from '../auth/authContext';
-import LearnChild from './LearnChild';
 
 const LearnUse2 = () => {
     const [user, setUser] = useState('jochen');
