@@ -8,41 +8,53 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from './config/colors';
 import AppNavigator from './navigation/AppNavigator';
 import AuthNavigator from './navigation/AuthNavigator';
+import OnboardingNavigator from './navigation/OnboardingNavigator';
 
 SplashScreen.preventAutoHideAsync();
 
 function App() {
-  const [isReady, setIsReady] = useState(false);
+  const [onBoarding, setOnBoarding] = useState(true);
   const [user, setUser] = useState(null);
 
-  // get stored user
   useEffect(() => {
-    const restoreUser = async () => {
-      const storedString = await AsyncStorage.getItem('auth.currentUser');
-      if (storedString) {
-        const storedUser = JSON.parse(storedString).email;
-        console.log('mein user', storedUser);
-        setUser(storedUser);
-        setIsReady(true);
-      } else {
-        setIsReady(true);
-      }
-    };
-    restoreUser();
-  }, []);
+    const startUp = async () => {
+      // get stored onboarding status
+      const restoreOnboarding = async () => {
+        const storedOnboardingStatus = await AsyncStorage.getItem('onboarding');
+        if (storedOnboardingStatus) {
+          // setOnBoarding(JSON.parse(storedOnboardingStatus));
+        } else {
+          console.log('kein onboarding gespeichert')
+          return;
+        }
+      };
+      await restoreOnboarding();
 
-  // hide splash screen when user is set
-  useEffect(() => {
-    if (isReady) {
-      SplashScreen.hideAsync();
+      // get stored user
+      const restoreUser = async () => {
+        const storedString = await AsyncStorage.getItem('auth.currentUser');
+        if (storedString) {
+          const storedUser = JSON.parse(storedString).email;
+          setUser(storedUser);
+        } else {
+          return;
+        }
+      };
+      await restoreUser();
+
+      // hide splash screen when startUp is finished
+      return SplashScreen.hideAsync();
     }
-  }, [isReady]);
+    startUp();
+  }, []);
 
   return (
     <authContext.Provider value={{ user, setUser }}>
       {user
         ? <AppNavigator />
-        : <AuthNavigator />}
+        : onBoarding
+          ? <OnboardingNavigator setOnBoarding={setOnBoarding} /> :
+          <AuthNavigator />}
     </authContext.Provider>
   );
 }
