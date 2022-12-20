@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import useGetJournal from '../hooks/useGetJournal';
 
@@ -8,43 +9,45 @@ function Journal() {
     const { storageItems, updateVals } = useGetJournal();
 
     return (
-        <View style={styles.container}>
-            <Formik
-                initialValues={{ title: '', description: '' }}
-                onSubmit={updateVals}
-            >
-                {({ handleChange, handleSubmit, handleBlur, setFieldTouched, errors, values }) => (
-                    <View style={styles.container}>
-                        <TextInput
-                            onChangeText={handleChange('title')}
-                            onBlur={handleBlur('title')}
-                            placeholder='title'
-                            style={styles.input}
-                            value={values.title}
-                        />
-                        <Text style={{ color: 'red' }}>{errors.price}</Text>
-                        <TextInput
-                            onChangeText={handleChange('description')}
-                            onBlur={handleBlur('description')}
-                            placeholder='description'
-                            style={styles.inputarea}
-                            value={values.description}
-                            multiline={true}
-                            numberOfLines={4}
-                        />
-                        <Text style={{ color: 'red' }}>{errors.description}</Text>
-                        <Button onPress={handleSubmit} title="Post" />
-                    </View>
-                )}
-            </Formik>
-            <View>
-                {storageItems.map((item) => (
-                    <View key={item.id}>
-                        <Text>{item.title}</Text>
-                    </View>
-                ))}
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <Formik
+                    initialValues={{ title: '', description: '' }}
+                    onSubmit={updateVals}
+                >
+                    {({ handleChange, handleSubmit, handleBlur, setFieldTouched, errors, values }) => (
+                        <View style={styles.container}>
+                            <TextInput
+                                onChangeText={handleChange('title')}
+                                onBlur={handleBlur('title')}
+                                placeholder='title'
+                                style={styles.input}
+                                value={values.title}
+                            />
+                            <Text style={{ color: 'red' }}>{errors.price}</Text>
+                            <TextInput
+                                onChangeText={handleChange('description')}
+                                onBlur={handleBlur('description')}
+                                placeholder='description'
+                                style={styles.inputarea}
+                                value={values.description}
+                                multiline={true}
+                                numberOfLines={4}
+                            />
+                            <Text style={{ color: 'red' }}>{errors.description}</Text>
+                            <Button onPress={handleSubmit} title="Post" />
+                        </View>
+                    )}
+                </Formik>
+                <View>
+                    {storageItems.map((item) => (
+                        <View key={item.id}>
+                            <Text>{item.title}</Text>
+                        </View>
+                    ))}
+                </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 

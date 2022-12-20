@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Keyboard } from "react-native";
 
 function useGetJournal() {
 
@@ -28,7 +29,8 @@ function useGetJournal() {
         setStorageItems((oldarray) => [...oldarray, {
             title: vals.title,
             id: Math.random().toString()
-        }])
+        }]);
+        Keyboard.dismiss()
     }
 
     // write array to asynch storage
